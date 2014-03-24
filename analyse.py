@@ -28,32 +28,35 @@ def bresenham(x0, y0, x1, y1):
 		yield x0, y0
 
 class Analyse(object):
-	def __init__(self):
-		self.tmpPath = "tmp/"
+	def __init__(self, image=None, temp="tmp/"):
+		self.tmpPath = temp
+		self.im = None
+		if image:
+			self.setImage(image)
 
-	def analyseImage(self, imageFullPath, xStart, yStart, xStop, yStop):
+	def setImage(self, image):
+		self.im = Image.open(image)
 
-		im = Image.open(imageFullPath)
-		print im.bits, im.size, im.format
+	def analyseImage(self, xStart, yStart, xStop, yStop):
+		assert self.im, "Set an image before analyse it"
+		# im = Image.open(imageFullPath)
+		print self.im.bits, self.im.size, self.im.format
 
-		pixelsInt = [im.getpixel((x,y)) for x,y in bresenham(xStart, yStart, xStop, yStop)]
+		pixelsInt = [self.im.getpixel((x,y)) for x,y in bresenham(xStart, yStart, xStop, yStop)]
 
 		indices = range(1, len(pixelsInt)+1)
 		pylab.plot(indices, pixelsInt)
 
 		my_dpi = 80
-		#pylab.figure(figsize=(600/my_dpi, 500/my_dpi), dpi=my_dpi)
 		pylab.figure(1, figsize=(3.25, 3))
 
-		draw = ImageDraw.Draw(im)
+		draw = ImageDraw.Draw(self.im)
 		draw.line([(xStart, yStart),(xStop, yStop)], fill=128)
 		del draw
 
-		im.save(self.tmpPath + "line.png", "PNG")
-		#pylab.show()
+		self.im.save(self.tmpPath + "line.png", "PNG")
 		pylab.savefig(self.tmpPath + "graph.png", dpi=my_dpi)
 		pylab.close()
-		#600x500
 
 if __name__ == "__main__":
 	xStart = 170

@@ -4,7 +4,7 @@ import sys, os
 from PIL import Image
 from PyQt4 import QtCore, QtGui
 from gui.guiMaster import *
-import analyse
+from analyse import Analyse
 
 class SignalHandler(object):
 	def __init__(self, ui):
@@ -23,10 +23,13 @@ class SignalHandler(object):
 		self._ui.txtPath.setText(os.path.dirname(os.path.abspath(__file__)) + "/images")
 		self.syncPath()
 
+		self.an = Analyse()
+
 	def setImageForControl(self, control, imageFullPath):
 		#use full ABSOLUTE path to the image, not relative
 		print imageFullPath
 		control.setPixmap(QtGui.QPixmap(imageFullPath))
+		self.an.setImage(imageFullPath)
 
 	def syncPath(self):
 		self._ui.lstFiles.clear()
@@ -34,15 +37,13 @@ class SignalHandler(object):
 		for fname in dirList:
 			self._ui.lstFiles.addItem(fname)
 
-	def doAnalyse(self, imgName):
-		imgFullPath = str(self._ui.txtPath.text()) + "/" + imgName
-		an = analyse.Analyse()
-		an.analyseImage(imgFullPath, self.coords[0], self.coords[1], self.coords[2], self.coords[3])
+	def doAnalyse(self):
+		self.an.analyseImage(self.coords[0], self.coords[1], self.coords[2], self.coords[3])
 
 		tmpPath = os.path.dirname(os.path.abspath(__file__)) + "/tmp/"
 
 		self.setImageForControl(self._ui.lblSelect, tmpPath + "line.png")
-		self.setImageForControl(self._ui.lblGraph, tmpPath  + "graph.png")
+		self.setImageForControl(self._ui.lblGraph, tmpPath + "graph.png")
 
 	def lblSelect_onClick_getPos(self , event):
 		x = event.pos().x()
@@ -57,7 +58,7 @@ class SignalHandler(object):
 			self.coords.append(x)
 			self.coords.append(y)
 			self.selectionClick = 0
-			self.doAnalyse(str(self._ui.lstFiles.currentItem().text()))
+			self.doAnalyse()
 
 	def lstFiles_on_item_changed(self, curr, prev):
 		#http://www.pythoncentral.io/pyside-pyqt-tutorial-the-qlistwidget/

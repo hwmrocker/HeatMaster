@@ -10,8 +10,8 @@ def get_md5_from_file(filename):
     return m.digest()
 
 def test_line():
-    an = Analyse()
-    an.analyseImage("images/IR_0485.jpg",0,0,100,100)
+    an = Analyse("images/IR_0485.jpg")
+    an.analyseImage(0,0,100,100)
 
     assert get_md5_from_file("tmp/graph.png") == '\xdcu\x87\x935\x9f\xa6\xa9HX\xe9j\x89C\xa9\xd8', "wrong md5sum"
     assert get_md5_from_file("tmp/line.png") == '_\x93\xb3E\xd3\x11`|\x90\xde"!q\xaa\xd9\xf2', "wrong md5sum"
