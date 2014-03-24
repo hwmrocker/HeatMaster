@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from analyse import analyse
+from analyse import Analyse
 import md5
 
 def get_md5_from_file(filename):
@@ -10,7 +10,7 @@ def get_md5_from_file(filename):
     return m.digest()
 
 def test_line():
-    an = analyse()
+    an = Analyse()
     an.analyseImage("images/IR_0485.jpg",0,0,100,100)
 
     assert get_md5_from_file("tmp/graph.png") == '\xdcu\x87\x935\x9f\xa6\xa9HX\xe9j\x89C\xa9\xd8', "wrong md5sum"
