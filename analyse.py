@@ -27,7 +27,7 @@ def bresenham(x0, y0, x1, y1):
 			y0 = y0 + sy
 		yield x0, y0
 
-class analyse(object):
+class Analyse(object):
 	def __init__(self):
 		self.tmpPath = "tmp/"
 

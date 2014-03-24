@@ -6,7 +6,7 @@ from PyQt4 import QtCore, QtGui
 from gui.guiMaster import *
 import analyse
 
-class signalHandler(object):
+class SignalHandler(object):
 	def __init__(self, ui):
 		self._ui = ui
 		QtCore.QObject.connect(self._ui.cmdSelectPath, QtCore.SIGNAL("clicked()"), self.cmdSelectPath_clicked)
@@ -36,7 +36,7 @@ class signalHandler(object):
 
 	def doAnalyse(self, imgName):
 		imgFullPath = str(self._ui.txtPath.text()) + "/" + imgName
-		an = analyse.analyse()
+		an = analyse.Analyse()
 		an.analyseImage(imgFullPath, self.coords[0], self.coords[1], self.coords[2], self.coords[3])
 
 		tmpPath = os.path.dirname(os.path.abspath(__file__)) + "/tmp/"
@@ -85,7 +85,7 @@ MainWindow = QtGui.QMainWindow()
 ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
 
-sh = signalHandler(ui)
+sh = SignalHandler(ui)
 
 MainWindow.show()
 sys.exit(app.exec_())
