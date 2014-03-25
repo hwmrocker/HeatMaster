@@ -48,15 +48,13 @@ class SignalHandler(object):
 	def lblSelect_onClick_getPos(self , event):
 		x = event.pos().x()
 		y = event.pos().y()
+		print event.pos()
 		print x, y
 		if self.selectionClick == 0:
-			self.coords = []
-			self.coords.append(x)
-			self.coords.append(y)
+			self.coords = [x,y]
 			self.selectionClick += 1
 		elif self.selectionClick == 1:
-			self.coords.append(x)
-			self.coords.append(y)
+			self.coords.extend([x,y])
 			self.selectionClick = 0
 			self.doAnalyse()
 

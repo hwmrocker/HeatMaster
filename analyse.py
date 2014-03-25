@@ -40,7 +40,8 @@ class Analyse(object):
 	def analyseImage(self, xStart, yStart, xStop, yStop):
 		assert self.im, "Set an image before analyse it"
 		# im = Image.open(imageFullPath)
-		print self.im.bits, self.im.size, self.im.format
+		# print self.im.bits, self.im.size, self.im.format
+		print "haha", self.im.size, self.im.format
 
 		pixelsInt = [self.im.getpixel((x,y)) for x,y in bresenham(xStart, yStart, xStop, yStop)]
 
